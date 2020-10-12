@@ -1,28 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+  },
+  mounted() {
+    this.$router.beforeEach((to, from, next) => {
+      if(!this.$store.state.userInfo && to.name!=='login') {
+        console.log('user info null ' + to.name);
+        next('/login')
+      } else {
+        console.log('user info not null')
+        next();
+      }
+    })
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+  }
+  body{
+    height: 100%;
+    width: 100%;
+    margin: 0;
+  }
+  #app {
+    height: 100%;
+    width: 100%;
+  }
 </style>
