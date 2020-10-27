@@ -33,8 +33,8 @@
         display: flex;
         display: -ms-flexbox;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
+        margin-top: 30%;
         h1 {
             /*color: green;*/
         }

@@ -15,5 +15,9 @@ export default  [
     {
         path: '/mainPage',
         component: () => import('../components/MainPage')
+    },
+    {
+        path: '/termDemo',
+        component: () => import('../components/XTermDemo')
     }
 ]

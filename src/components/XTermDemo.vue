@@ -1,6 +1,11 @@
 <template>
     <div>
         <div id="terminal" ref="terminal"></div>
+        <div>
+            <input v-mode="encode"/>
+            <button @click="setEncode">SetEncode</button>
+            <button @click="unsetEncode">UnsetEncode</button>
+        </div>
         <div>{{sshStatus}}</div>
     </div>
 </template>
@@ -21,17 +26,19 @@
         },
         data() {
             return {
-                shellWs: '',
+                socketClient: '',
                 term: '',
                 rows: 40,
                 cols: 100,
-                sshStatus: ''
+                sshStatus: '',
+                room: '',
+                encode: 'GB18030'
             }
         },
         methods: {
             initSocketClient() {
                 let socket = io('http://192.168.1.102:9999/ssh-test?id=234234s')
-                this.shellWs = socket;
+                this.socketClient = socket;
                 //连上ws服务后立即进行登陆操作
                 socket.on('connect', ()=>{
                     socket.emit('login', {'ssh-id':this.sshid})
@@ -53,8 +60,18 @@
                     console.log(result)
                     this.term.write(new Uint8Array(result))
                 })
+                socket.on('setRoom', (room) => {
+                    console.log('set room: ' + room)
+                    this.room = room;
+                })
+            },
+            setEncode() {
+                this.socketClient.emit('setencoding',{room: this.room, encode: this.encode})
+            },
+            unsetEncode() {
+                this.encode = ""
+                this.socketClient.emit('on_resetencoding', {room: this.room})
             }
-
         },
         created() {
             this.initSocketClient();
@@ -85,7 +102,8 @@
                 term._initialized = true;
 
                 term.onKey(e=>{
-                    _this.shellWs.emit('sendtossh', e.key);
+                    console.log(_this.room)
+                    _this.socketClient.emit('sendtossh', {data:e.key, room: _this.room});
                 });
 
             }
