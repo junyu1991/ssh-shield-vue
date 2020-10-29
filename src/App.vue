@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="app">
     <router-view></router-view>
   </div>
 </template>
@@ -28,15 +28,13 @@ export default {
   html {
     height: 100%;
     width: 100%;
-    margin: 0;
   }
   body{
     height: 100%;
     width: 100%;
     margin: 0;
   }
-  #app {
+  .app {
     height: 100%;
-    width: 100%;
   }
 </style>

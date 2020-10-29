@@ -29,12 +29,12 @@
 </script>
 <style scoped lang="scss">
     .login {
-        height: 100%;
+        height: 50%;
         display: flex;
         display: -ms-flexbox;
         flex-direction: column;
         align-items: center;
-        margin-top: 30%;
+        justify-content: center;
         h1 {
             /*color: green;*/
         }
